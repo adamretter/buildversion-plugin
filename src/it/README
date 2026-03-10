@@ -1,7 +1,3 @@
-/src/it/
-
-These are integration-tests which exercise the packaged plugin from a separate
-instance of Maven using maven-invoker-plugin.
+These are integration-tests which exercise the packaged plugin from a separate instance of Maven using maven-invoker-plugin.
 
 See http://maven.apache.org/plugins/maven-invoker-plugin/.
-

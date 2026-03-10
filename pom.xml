@@ -39,7 +39,6 @@
   </scm>
 
   <properties>
-    <clojureMaven.version>0.3.3</clojureMaven.version>
     <maven.version>3.5.4</maven.version>
   </properties>
 
@@ -74,17 +73,29 @@
   </profiles>
 
   <build>
-    <sourceDirectory>src/main/clojure</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>src/main/clojure</directory>
-        <includes>
-          <include>**/*.clj</include>
-        </includes>
-      </resource>
-    </resources>
-
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <systemPropertyVariables>
+            <buildversion.maven-target-dir>${project.build.directory}</buildversion.maven-target-dir>
+            <buildversion.maven-bash-source-dir>src/test/bash</buildversion.maven-bash-source-dir>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+
       <plugin>
         <!-- extract mojo properties from source -->
         <artifactId>maven-plugin-plugin</artifactId>
@@ -98,16 +109,7 @@
             </goals>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <!-- add the Clojure-specific extractor to generate the mojo descriptor -->
-            <groupId>org.cloudhoist</groupId>
-            <artifactId>clojure-maven-mojo-descriptor-extractor</artifactId>
-            <version>${clojureMaven.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
-
 
       <plugin>
         <artifactId>maven-invoker-plugin</artifactId>
@@ -123,9 +125,6 @@
           <preBuildHookScript>setup.groovy</preBuildHookScript>
           <postBuildHookScript>verify.groovy</postBuildHookScript>
           <debug>true</debug>
-          <properties>
-            <!-- <clojure.version>${clojure.version}</clojure.version> -->
-          </properties>
         </configuration>
         <executions>
           <execution>
@@ -136,36 +135,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-
-      <!-- Run tests in Clojure -->
-      <plugin>
-        <groupId>org.cloudhoist.plugin</groupId>
-        <artifactId>zi</artifactId>
-        <version>0.5.5</version>
-        <executions>
-          <execution>
-            <id>test</id>
-            <phase>test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <initScript>
-            (require 'clojure.string)
-
-            (java.lang.System/setProperty
-                       "buildversion.maven-target-dir"
-                       "${project.build.directory}" )
-
-            (java.lang.System/setProperty
-                       "buildversion.maven-bash-source-dir"
-                       (clojure.string/replace "${project.build.testSourceDirectory}"
-                           #"/java$" "/bash") )
-          </initScript>
-        </configuration>
       </plugin>
 
       <plugin>
@@ -180,46 +149,40 @@
         </configuration>
       </plugin>
     </plugins>
-
   </build>
 
   <dependencies>
     <dependency>
-      <groupId>org.clojure</groupId>
-      <artifactId>clojure</artifactId>
-      <version>1.9.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.clojure</groupId>
-      <artifactId>tools.trace</artifactId>
-      <version>0.7.10</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.cloudhoist</groupId>
-      <artifactId>clojure-maven-mojo</artifactId>
-      <version>${clojureMaven.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.cloudhoist</groupId>
-      <artifactId>clojure-maven-mojo-annotations</artifactId>
-      <version>${clojureMaven.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.cloudhoist</groupId>
-      <artifactId>clojure-maven-plexus-component-factory</artifactId>
-      <version>${clojureMaven.version}</version>
-      <scope>runtime</scope>
+      <groupId>org.apache.maven.plugin-tools</groupId>
+      <artifactId>maven-plugin-annotations</artifactId>
+      <version>3.6.0</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>${maven.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-core</artifactId>
+      <version>${maven.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-jsr223</artifactId>
+      <version>3.0.21</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -230,14 +193,4 @@
     </repository>
   </repositories>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>sonatype-releases</id>
-      <url>https://oss.sonatype.org/content/repositories/releases</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>clojars.org</id>
-      <url>https://clojars.org/repo</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>

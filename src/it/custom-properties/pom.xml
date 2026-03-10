@@ -27,7 +27,7 @@
             <configuration>
               <tstampFormat>yyyy-MM-dd</tstampFormat>
               <customProperties>
-                    { :build-commit-uppercase (clojure.string/upper-case build-commit) }
+                    ["build-commit-uppercase": buildCommit.toUpperCase()]
               </customProperties>
             </configuration>
           </execution>

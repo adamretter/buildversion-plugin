@@ -2,18 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
-
   <groupId>com.code54.mojo</groupId>
   <artifactId>buildversion-plugin</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-  <name>buildversion-plugin</name>
 
+  <name>Build Version Maven Plugin</name>
   <description>
     This is a maven plugin that extracts current build information from git
     projects, including: the latest commit hash, timestamp, most recent tag,
@@ -21,6 +15,12 @@
     parent" flavor of git describe.
   </description>
   <url>https://github.com/evolvedbinary/buildversion-maven-plugin</url>
+  <inceptionYear>2012</inceptionYear>
+
+  <organization>
+    <name>Evolved Binary</name>
+    <url>https://www.evolvedbinary.com</url>
+  </organization>
 
   <licenses>
     <license>
@@ -50,163 +50,14 @@
   </scm>
 
   <properties>
+    <project.build.source>1.8</project.build.source>
+    <project.build.target>1.8</project.build.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.version>3.5.4</maven.version>
   </properties>
 
-  <profiles>
-    <profile>
-      <id>release-sign-artifacts</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
-  <build>
-    <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.6.2</version>
-        <executions>
-          <execution>
-            <id>enforce-java-version</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireJavaVersion>
-                  <version>1.8</version>
-                </requireJavaVersion>
-              </rules>
-              <fail>true</fail>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.9.0</version>
-        <executions>
-          <execution>
-            <id>analyze</id>
-            <goals>
-              <goal>analyze-only</goal>
-            </goals>
-            <configuration>
-            <failOnWarning>true</failOnWarning>
-              <ignoredUnusedDeclaredDependencies>
-                <ignoredUnusedDeclaredDependency>org.codehaus.groovy:groovy-jsr223</ignoredUnusedDeclaredDependency>
-                <ignoredUnusedDeclaredDependency>ch.qos.logback:logback-classic</ignoredUnusedDeclaredDependency>
-              </ignoredUnusedDeclaredDependencies>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
-        <configuration>
-          <systemPropertyVariables>
-            <buildversion.maven-target-dir>${project.build.directory}</buildversion.maven-target-dir>
-            <buildversion.maven-bash-source-dir>src/test/bash</buildversion.maven-bash-source-dir>
-          </systemPropertyVariables>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <!-- extract mojo properties from source -->
-        <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.6.0</version>
-        <executions>
-          <execution>
-            <id>default-descriptor</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>descriptor</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-invoker-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <projectsDirectory>src/it</projectsDirectory>
-          <cloneProjectsTo>${project.build.directory}/it/</cloneProjectsTo>
-          <pomIncludes>
-            <pomInclude>*/pom.xml</pomInclude>
-          </pomIncludes>
-          <settingsFile>src/it/settings.xml</settingsFile>
-          <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
-          <preBuildHookScript>setup.groovy</preBuildHookScript>
-          <postBuildHookScript>verify.groovy</postBuildHookScript>
-          <debug>true</debug>
-        </configuration>
-        <executions>
-          <execution>
-            <id>integration-test</id>
-            <goals>
-              <goal>install</goal>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
-        <configuration>
-          <tagNameFormat>v@{project.version}</tagNameFormat>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <localCheckout>true</localCheckout>
-          <pushChanges>false</pushChanges>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
   <dependencies>
+
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
@@ -218,6 +69,7 @@
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>${maven.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -263,11 +115,255 @@
 
   </dependencies>
 
-  <repositories>
-    <repository>
-      <id>sonatype-releases</id>
-      <url>https://oss.sonatype.org/content/repositories/releases</url>
-    </repository>
-  </repositories>
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.6.2</version>
+        <executions>
+          <execution>
+            <id>enforce-java-version</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>1.8</version>
+                </requireJavaVersion>
+              </rules>
+              <fail>true</fail>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.9.0</version>
+        <executions>
+          <execution>
+            <id>analyze</id>
+            <goals>
+              <goal>analyze-only</goal>
+            </goals>
+            <configuration>
+              <failOnWarning>true</failOnWarning>
+              <ignoreUnusedRuntime>true</ignoreUnusedRuntime>
+              <ignoredUnusedDeclaredDependencies>
+                <ignoredUnusedDeclaredDependency>ch.qos.logback:logback-classic</ignoredUnusedDeclaredDependency>
+              </ignoredUnusedDeclaredDependencies>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <propertiesEncoding>${project.build.sourceEncoding}</propertiesEncoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.15.0</version>
+        <configuration>
+          <source>${project.build.source}</source>
+          <target>${project.build.target}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.5</version>
+        <configuration>
+          <systemPropertyVariables>
+            <buildversion.maven-target-dir>${project.build.directory}</buildversion.maven-target-dir>
+            <buildversion.maven-bash-source-dir>src/test/bash</buildversion.maven-bash-source-dir>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.15.2</version>
+        <executions>
+          <execution>
+            <id>default-descriptor</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>descriptor</goal>
+            </goals>
+            <configuration>
+              <goalPrefix>buildversion</goalPrefix>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <version>3.9.1</version>
+        <configuration>
+          <projectsDirectory>src/it</projectsDirectory>
+          <cloneProjectsTo>${project.build.directory}/it/</cloneProjectsTo>
+          <pomIncludes>
+            <pomInclude>*/pom.xml</pomInclude>
+          </pomIncludes>
+          <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+          <preBuildHookScript>setup.groovy</preBuildHookScript>
+          <postBuildHookScript>verify.groovy</postBuildHookScript>
+          <debug>true</debug>
+        </configuration>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>install</goal>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+            <manifestEntries>
+              <Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+              <Source-Repository>${project.scm.connection}</Source-Repository>
+              <Description>${project.description}</Description>
+              <Implementation-URL>${project.url}</Implementation-URL>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <!-- Maven Release plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
+          <releaseProfiles>buildversion-plugin-release</releaseProfiles>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>buildversion-plugin-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.4.0</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                </manifest>
+                <manifestEntries>
+                  <Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+                  <Source-Repository>${project.scm.connection}</Source-Repository>
+                  <Description>${project.description}</Description>
+                  <Implementation-URL>${project.url}</Implementation-URL>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.12.0</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                </manifest>
+                <manifestEntries>
+                  <Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+                  <Source-Repository>${project.scm.connection}</Source-Repository>
+                  <Description>${project.description}</Description>
+                  <Implementation-URL>${project.url}</Implementation-URL>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.2.8</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.10.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <deploymentName>${project.artifactId}-${project.version}</deploymentName>
+              <failOnBuildFailure>true</failOnBuildFailure>
+              <waitUntil>validated</waitUntil>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

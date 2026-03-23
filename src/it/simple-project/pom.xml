@@ -6,9 +6,10 @@
   <version>9.9.99</version>
 
   <name>Build version project example</name>
+
   <organization>
-    <name>Code54</name>
-    <url>http://code54.com</url>
+    <name>Evolved Binary</name>
+    <url>https://www.evolvedbinary.com</url>
   </organization>
 
   <build>
@@ -16,7 +17,7 @@
       <plugin>
         <groupId>com.code54.mojo</groupId>
         <artifactId>buildversion-plugin</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
         <executions>
           <execution>
             <goals>

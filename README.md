@@ -28,7 +28,7 @@ Simply add `buildversion-plugin` to your pom, executing the `set-properties` goa
       <plugin>
         <groupId>com.code54.mojo</groupId>
         <artifactId>buildversion-plugin</artifactId>
-        <version>1.0.3</version>
+        <version>1.1.0-SNAPSHOT</version>
         <executions>
           <execution>
             <goals><goal>set-properties</goal></goals>

@@ -10,13 +10,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package com.code54.mojo.buildversion.util;
+package com.evolvedbinary.maven.plugins.buildversion.util;
 
-import org.apache.maven.plugin.logging.Log;
-
-public interface LoggerFactory {
-
-    static Logger fromMavenLog(final Log log) {
-        return new MavenLogAdapter(log);
-    }
+public interface Logger {
+    void debug(String message);
+    void debug(String message, Throwable error);
 }

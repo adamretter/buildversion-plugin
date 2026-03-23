@@ -10,25 +10,27 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package com.code54.mojo.buildversion.util;
+package com.evolvedbinary.maven.plugins.buildversion;
 
-import org.apache.maven.plugin.logging.Log;
+import com.evolvedbinary.maven.plugins.buildversion.util.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.Util;
 
-public class MavenLogAdapter implements Logger {
+public class SLF4JLogAdapter implements Logger {
 
-    private final Log mavenLog;
+    private final org.slf4j.Logger logger;
 
-    MavenLogAdapter(final Log mavenLog) {
-        this.mavenLog = mavenLog;
+    public SLF4JLogAdapter() {
+        this.logger = LoggerFactory.getLogger(Util.getCallingClass());
     }
 
     @Override
     public void debug(final String message) {
-        mavenLog.debug(message);
+        this.logger.debug(message);
     }
 
     @Override
     public void debug(final String message, final Throwable error) {
-        mavenLog.debug(message, error);
+        this.logger.debug(message, error);
     }
 }

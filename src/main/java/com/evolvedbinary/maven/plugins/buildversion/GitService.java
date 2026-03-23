@@ -10,9 +10,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package com.code54.mojo.buildversion;
+package com.evolvedbinary.maven.plugins.buildversion;
 
-import com.code54.mojo.buildversion.util.Logger;
+import com.evolvedbinary.maven.plugins.buildversion.util.Logger;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;

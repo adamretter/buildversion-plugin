@@ -10,9 +10,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package com.code54.mojo.buildversion;
+package com.evolvedbinary.maven.plugins.buildversion;
 
-import com.code54.mojo.buildversion.util.LoggerFactory;
+import com.evolvedbinary.maven.plugins.buildversion.util.LoggerFactory;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.code54.mojo.buildversion.GitService.DEFAULT_TIMESTAMP_FORMAT;
+import static com.evolvedbinary.maven.plugins.buildversion.GitService.DEFAULT_TIMESTAMP_FORMAT;
 
 @Mojo(name = "set-properties", defaultPhase = LifecyclePhase.INITIALIZE)
 public class BuildVersionMojo extends AbstractMojo {

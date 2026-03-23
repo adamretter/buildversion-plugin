@@ -10,7 +10,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package com.code54.mojo.buildversion;
+package com.evolvedbinary.maven.plugins.buildversion;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

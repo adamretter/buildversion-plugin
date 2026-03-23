@@ -26,8 +26,8 @@ Simply add `buildversion-plugin` to your pom, executing the `set-properties` goa
   <build>
     <plugins>
       <plugin>
-        <groupId>com.code54.mojo</groupId>
-        <artifactId>buildversion-plugin</artifactId>
+        <groupId>com.evolvedbinary.maven.plugins</groupId>
+        <artifactId>buildversion-maven-plugin</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <executions>
           <execution>

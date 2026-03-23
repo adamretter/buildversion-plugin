@@ -1,5 +1,6 @@
 # Build Version Maven Plugin
 
+[![Build Status](https://github.com/evolvedbinary/buildversion-maven-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/evolvedbinary/buildversion-maven-plugin/actions/workflows/ci.yml)
 [![Java 8](https://img.shields.io/badge/java-8-blue.svg)](https://adoptopenjdk.net/)
 [![License](https://img.shields.io/badge/license-EPL%201.0-blue.svg)](https://www.eclipse.org/legal/epl/epl-v10.html)
 

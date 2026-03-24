@@ -18,7 +18,7 @@
 
   <groupId>com.evolvedbinary.maven.plugins</groupId>
   <artifactId>buildversion-maven-plugin</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Build Version Maven Plugin</name>
@@ -60,7 +60,7 @@
     <connection>scm:git:https://github.com/evolvedbinary/buildversion-maven-plugin.git</connection>
     <developerConnection>scm:git:https://github.com/evolvedbinary/buildversion-maven-plugin.git</developerConnection>
     <url>scm:git:https://github.com/evolvedbinary/buildversion-maven-plugin.git</url>
-    <tag>v2.0.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>

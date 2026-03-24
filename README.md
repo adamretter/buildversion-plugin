@@ -3,6 +3,7 @@
 [![Build Status](https://github.com/evolvedbinary/buildversion-maven-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/evolvedbinary/buildversion-maven-plugin/actions/workflows/ci.yml)
 [![Java 8](https://img.shields.io/badge/java-8-blue.svg)](https://adoptopenjdk.net/)
 [![License](https://img.shields.io/badge/license-EPL%201.0-blue.svg)](https://www.eclipse.org/legal/epl/epl-v10.html)
+[![Maven Central](https://img.shields.io/maven-central/v/com.evolvedbinary.maven.plugins/buildversion-maven-plugin?logo=apachemaven&label=maven+central&color=green)](https://central.sonatype.com/search?namespace=xyz.elemental)
 
 **NOTE** This is a port from Clojure to Java of the original code from: https://github.com/code54/buildversion-plugin
 
@@ -29,7 +30,7 @@ Simply add `buildversion-plugin` to your pom, executing the `set-properties` goa
       <plugin>
         <groupId>com.evolvedbinary.maven.plugins</groupId>
         <artifactId>buildversion-maven-plugin</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>2.0.0</version>
         <executions>
           <execution>
             <goals><goal>set-properties</goal></goals>

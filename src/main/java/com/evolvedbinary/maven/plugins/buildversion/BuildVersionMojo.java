@@ -32,7 +32,7 @@ import java.util.Properties;
 
 import static com.evolvedbinary.maven.plugins.buildversion.GitService.DEFAULT_TIMESTAMP_FORMAT;
 
-@Mojo(name = "set-properties", defaultPhase = LifecyclePhase.INITIALIZE)
+@Mojo(name = "set-properties", defaultPhase = LifecyclePhase.INITIALIZE, threadSafe = true)
 public class BuildVersionMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
